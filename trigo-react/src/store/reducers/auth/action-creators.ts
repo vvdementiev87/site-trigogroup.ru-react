@@ -1,4 +1,6 @@
+import { createJSDocAuthorTag } from "typescript";
 import { AppDispatch } from "../..";
+import AuthService from "../../../api/AuthService";
 import UserService from "../../../api/UserService";
 import { IUser } from "../../../models/IUser";
 import {
@@ -42,8 +44,8 @@ export const AuthActionCreator = {
       try {
         dispatch(AuthActionCreator.setIsLoading(true));
         setTimeout(async () => {
-          const response = await UserService.getUsers();
-          const mockUser = response.data.find(
+          const response = await AuthService.login(username, password);
+          /* const mockUser = response.data.find(
             (user) => user.username === username && user.password === password
           );
           if (mockUser) {
@@ -53,6 +55,10 @@ export const AuthActionCreator = {
             dispatch(AuthActionCreator.setIsAuth(true));
           } else {
             dispatch(AuthActionCreator.setError("Wromg username or password"));
+          } */
+          if (response) {
+            dispatch(AuthActionCreator.setUser(response.data));
+            dispatch(AuthActionCreator.setIsAuth(true));
           }
           dispatch(AuthActionCreator.setIsLoading(false));
         }, 1000);
