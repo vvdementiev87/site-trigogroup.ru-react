@@ -20,15 +20,15 @@ export default class AuthService {
     return axios.post(API_URL, params)
       .then((response: AxiosResponse) => {
         console.log(response);
-        if (response) {
-          sessionStorage.setItem("username", JSON.stringify(response));
+        if (response.data.error) {
+          throw new Error(response.data.error);          
         }
-        console.log("response.data", response.data);
+        sessionStorage.setItem("username", JSON.stringify(response));
         return response;
       })
-      .catch((response) => {
-        console.log(response);
-        return response;
+      .catch((e) => {
+        console.log(e);
+        return e;
       });
   }
 }

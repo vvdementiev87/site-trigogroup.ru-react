@@ -1,7 +1,5 @@
-import { createJSDocAuthorTag } from "typescript";
 import { AppDispatch } from "../..";
 import AuthService from "../../../api/AuthService";
-import UserService from "../../../api/UserService";
 import { IUser } from "../../../models/IUser";
 import {
   AuthActionEnum,
@@ -31,6 +29,7 @@ export const AuthActionCreator = {
 
   logout: () => async (dispatch: AppDispatch) => {
     try {
+      dispatch(AuthActionCreator.setError(""));
       sessionStorage.removeItem("auth");
       sessionStorage.removeItem("username");
       dispatch(AuthActionCreator.setUser({} as IUser));
@@ -42,28 +41,21 @@ export const AuthActionCreator = {
   login:
     (username: string, password: string) => async (dispatch: AppDispatch) => {
       try {
+        dispatch(AuthActionCreator.setError(""));
         dispatch(AuthActionCreator.setIsLoading(true));
-        setTimeout(async () => {
           const response = await AuthService.login(username, password);
-          /* const mockUser = response.data.find(
-            (user) => user.username === username && user.password === password
-          );
-          if (mockUser) {
-            sessionStorage.setItem("auth", "true");
-            sessionStorage.setItem("username", mockUser.username);
-            dispatch(AuthActionCreator.setUser(mockUser));
-            dispatch(AuthActionCreator.setIsAuth(true));
-          } else {
-            dispatch(AuthActionCreator.setError("Wromg username or password"));
-          } */
           if (response) {
+            let text=response.data;
+            if (response instanceof(Error)){
+              throw response;
+            }
             dispatch(AuthActionCreator.setUser(response.data));
             dispatch(AuthActionCreator.setIsAuth(true));
           }
           dispatch(AuthActionCreator.setIsLoading(false));
-        }, 1000);
+        
       } catch (error) {
-        dispatch(AuthActionCreator.setError("Ошибка: " + error));
+        dispatch(AuthActionCreator.setError(`${error}`));
       }
     },
 };

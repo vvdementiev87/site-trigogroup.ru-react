@@ -22,7 +22,7 @@ export const LoginForm: React.FC = () => {
       onFinishFailed={onFinishFalied}
       autoComplete="off"
     >
-      {error && <div style={{ color: "red" }}>Ощибка: {error}</div>}
+      {error && <div style={{ color: "red" }}>{error}</div>}
       <Form.Item
         label="Username"
         name="usernmae"

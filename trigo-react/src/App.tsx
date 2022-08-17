@@ -1,6 +1,7 @@
 import { Layout } from "antd";
 import React, { useEffect } from "react";
 import { AppRouter } from "./components/AppRouter";
+import FooterComp from "./components/FooterComp";
 import { Navbar } from "./components/Navbar";
 import { useAction } from "./hooks/useAction";
 import { IUser } from "./models/IUser";
@@ -19,7 +20,7 @@ const App: React.FC = () => {
       <Layout.Content>
         <AppRouter />
       </Layout.Content>
-      <Layout.Footer />
+      <FooterComp />
     </Layout>
   );
 };
