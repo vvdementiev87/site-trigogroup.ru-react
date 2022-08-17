@@ -1,2 +1,0 @@
-# site-trigogroup.ru-react
- 
