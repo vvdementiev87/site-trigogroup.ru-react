@@ -1,0 +1,32 @@
+{
+  "name": "devavi/leveltwo",
+  "autoload": {
+    "psr-4": {
+      "devavi\\leveltwo\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "devavi\\leveltwo\\UnitTests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "devavi"
+    }
+  ],
+  "require": {
+    "fakerphp/faker": "^1.20",
+    "symfony/polyfill-uuid": "^1.26",
+    "psr/container": "^2.0",
+    "monolog/monolog": "^3.2",
+    "vlucas/phpdotenv": "^5.4",
+    "symfony/console": "^6.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "scripts": {
+    "test": "phpunit tests --testdox --colors"
+  }
+}
