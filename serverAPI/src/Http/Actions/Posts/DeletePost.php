@@ -3,8 +3,8 @@
 namespace devavi\leveltwo\Http\Actions\Posts;
 
 use devavi\leveltwo\Blog\UUID;
-use devavi\leveltwo\http\Request;
-use devavi\leveltwo\http\Response;
+use devavi\leveltwo\Http\Request;
+use devavi\leveltwo\Http\Response;
 use devavi\leveltwo\Http\ErrorResponse;
 use devavi\leveltwo\Http\SuccessfulResponse;
 use devavi\leveltwo\Http\Actions\ActionInterface;

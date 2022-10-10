@@ -8,9 +8,9 @@ use devavi\leveltwo\Blog\Exceptions\AuthException;
 use devavi\leveltwo\Blog\Repositories\AuthTokensRepository\AuthTokensRepositoryInterface;
 use devavi\leveltwo\Http\Actions\ActionInterface;
 use devavi\leveltwo\Http\Auth\PasswordAuthenticationInterface;
-use devavi\leveltwo\http\Request;
+use devavi\leveltwo\Http\Request;
 use devavi\leveltwo\Http\ErrorResponse;
-use devavi\leveltwo\http\Response;
+use devavi\leveltwo\Http\Response;
 use devavi\leveltwo\Http\SuccessfulResponse;
 
 class LogIn implements ActionInterface
@@ -44,6 +44,8 @@ class LogIn implements ActionInterface
         // Возвращаем токен
         return new SuccessfulResponse([
             'token' => $authToken->token(),
+            'uuid' => (string)$user->uuid(),
+            'username' => $user->username()
         ]);
     }
 }

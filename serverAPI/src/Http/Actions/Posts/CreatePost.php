@@ -8,7 +8,7 @@ use devavi\leveltwo\Blog\UUID;
 use devavi\leveltwo\Http\Request;
 use devavi\leveltwo\Http\Response;
 use devavi\leveltwo\Http\ErrorResponse;
-use devavi\leveltwo\http\SuccessfulResponse;
+use devavi\leveltwo\Http\SuccessfulResponse;
 use devavi\leveltwo\Http\Actions\ActionInterface;
 use devavi\leveltwo\Blog\Exceptions\AuthException;
 use devavi\leveltwo\Blog\Exceptions\HttpException;

@@ -33,7 +33,7 @@ class SqliteAuthTokensRepository implements AuthTokensRepositoryInterface
         :user_uuid,
         :expires_on
     )
-    ON CONFLICT (token) DO UPDATE SET expires_on = :expires_on
+    ON DUPLICATE KEY UPDATE expires_on = :expires_on
 SQL;
 
         try {
