@@ -11,6 +11,7 @@ use devavi\leveltwo\Blog\Exceptions\HttpException;
 use devavi\leveltwo\Http\Actions\Posts\CreatePost;
 use devavi\leveltwo\Http\Actions\Posts\DeletePost;
 use devavi\leveltwo\Http\Actions\Posts\FindByUuid;
+use devavi\leveltwo\Http\Actions\Posts\ShowPosts;
 use devavi\leveltwo\Http\Actions\Users\CreateUser;
 use devavi\leveltwo\Http\Actions\Likes\CreatePostLike;
 use devavi\leveltwo\Http\Actions\Users\FindByUsername;
@@ -46,6 +47,7 @@ try {
 $routes = [
     'GET' => [
         '/users/show' => FindByUsername::class,
+        '/posts/show' => ShowPosts::class,
     ],
     'POST' => [
         '/login' => LogIn::class,

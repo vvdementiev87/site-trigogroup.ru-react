@@ -35,18 +35,16 @@ Dotenv::createImmutable(__DIR__)->safeLoad();
 
 $container = new DIContainer();
 
-$servername = "localhost";
+/* $servername = "localhost";
 $username = "trigouser";
 $password = "MyoXnCgpf7nBr2Em!";
-$dbname = "BLOG";
+$dbname = "BLOG"; */
 
 $container->bind(
     PDO::class,
     // Берём путь до файла базы данных SQLite
     // из переменной окружения SQLITE_DB_PATH
-    new PDO('mysql:host=' . $servername . '; dbname=' . $dbname, $username, $password, [
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ])
+    new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
 );
 
 

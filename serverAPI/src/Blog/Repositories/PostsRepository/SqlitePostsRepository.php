@@ -51,6 +51,23 @@ class SqlitePostsRepository implements PostsRepositoryInterface
         return $this->getPost($statement, $uuid);
     }
 
+    public function getAll()
+    {  $limit = 50;
+        $offset = 0;
+        $statement = $this->connection->prepare(
+            'SELECT * FROM posts LIMIT :limit OFFSET :offset'
+        );
+        $statement->execute(['limit' => $limit, 'offset' => $offset]);
+
+
+
+        for ($i = 1; $i <= $limit; $i++) {
+            $result[] = $this->getPost($statement, "all");
+        };          
+
+        return $result;
+    }
+
     private function getPost(PDOStatement $statement, string $errorString): Post
     {
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
