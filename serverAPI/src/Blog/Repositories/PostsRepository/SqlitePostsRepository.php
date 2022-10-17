@@ -52,16 +52,24 @@ class SqlitePostsRepository implements PostsRepositoryInterface
     }
 
     public function getAll()
-    {  $limit = 50;
-        $offset = 0;
-        $statement = $this->connection->prepare(
-            'SELECT * FROM posts LIMIT :limit OFFSET :offset'
+    {  
+        /* $statement = $this->connection->prepare(
+            'SELECT COUNT(*) FROM posts'
         );
-        $statement->execute(['limit' => $limit, 'offset' => $offset]);
+        $statement->execute();
 
+        $size = $statement->fetch(\PDO::FETCH_ASSOC);
 
+        $this->logger->warning("size $size[0]"); */
 
-        for ($i = 1; $i <= $limit; $i++) {
+        $statement = $this->connection->prepare(
+            'SELECT * FROM posts'
+        );
+        $statement->execute();
+        $size = $statement->rowCount();
+        $this->logger->warning("size $size");
+
+        for ($i = 1; $i <= $size ; $i++) {
             $result[] = $this->getPost($statement, "all");
         };          
 

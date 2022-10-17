@@ -46,19 +46,19 @@ try {
 
 $routes = [
     'GET' => [
-        'index.php/users/show' => FindByUsername::class,
-        'index.php//posts/show' => ShowPosts::class,
+        '/index.php/users/show' => FindByUsername::class,
+        '/index.php/posts/show' => ShowPosts::class,
     ],
     'POST' => [
-        'index.php//login' => LogIn::class,
-        'index.php//logout' => LogOut::class,
-        'index.php//users/create' => CreateUser::class,
-        'index.php//posts/create' => CreatePost::class,
-        'index.php//comments/create' => CreateComment::class,
-        'index.php//posts/likes/create' => CreatePostLike::class,
+        '/index.php/login' => LogIn::class,
+        '/index.php/logout' => LogOut::class,
+        '/index.php/users/create' => CreateUser::class,
+        '/index.php/posts/create' => CreatePost::class,
+        '/index.php/comments/create' => CreateComment::class,
+        '/index.php/posts/likes/create' => CreatePostLike::class,
     ],
     'DELETE' => [
-        'index.php//posts' => DeletePost::class,
+        '/index.php/posts' => DeletePost::class,
     ],
 
 ];
