@@ -49,6 +49,8 @@ class CreatePost implements ActionInterface
                 $author,
                 $request->jsonBodyField('title'),
                 $request->jsonBodyField('text'),
+                $request->jsonBodyField('category'),
+                $request->jsonBodyField('date')
             );
         } catch (HttpException $exception) {
             return new ErrorResponse($exception->getMessage());
@@ -59,6 +61,12 @@ class CreatePost implements ActionInterface
 
         return new SuccessfulResponse([
             'uuid' => (string)$newPostUuid,
-        ]);
+            'post' => ["author"=>$post->user()->username(),
+        "title"=>$post->title(),
+        "text"=>$post->text(),
+        "category"=>$post->category(),
+        "date"=>$post->date(),
+        ]]
+        );
     }
 }

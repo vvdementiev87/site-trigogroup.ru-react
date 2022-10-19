@@ -38,7 +38,12 @@ class ShowPosts implements ActionInterface
         foreach ($posts as $post) {
             array_push($result, [
             'uuid' => (string)$post->uuid(),
-        'post' => "user: " . (string)$post->user()->username() . ', title: ' . (string)$post->title() . ', text: ' . (string)$post->text(),]);}
+        'post' => ["author"=>$post->user()->username(),
+        "title"=>$post->title(),
+        "text"=>$post->text(),
+        "category"=>$post->category(),
+        "date"=>$post->date(),
+        ]]);}
         
 
         return new SuccessfulResponse([

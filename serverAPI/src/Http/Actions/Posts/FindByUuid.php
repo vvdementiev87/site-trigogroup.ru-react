@@ -50,7 +50,13 @@ class FindByUuid implements ActionInterface
 
         return new SuccessfulResponse([
             'uuid' => $post->uuid(),
-            'post' => "user: " . $post->user()->username() . ', title: ' . $post->title() . ', text: ' . $post->text(),
+            'post' => [
+                "author"=>$post->user()->username(),
+            "title"=>$post->title(),
+            "text"=>$post->text(),
+            "category"=>$post->category(),
+            "date"=>$post->date(),
+            ],
         ]);
     }
 }

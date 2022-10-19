@@ -7,13 +7,17 @@ class Post {
     private User    $user;
     private string  $title;
     private string  $text;
+    private string  $category;
+    private string $date;
 
-    public function __construct(UUID $uuid, User $user, string $title, string $text)
+    public function __construct(UUID $uuid, User $user, string $title, string $text, string  $category, string $date)
     {
         $this->uuid = $uuid;
         $this->user = $user;
         $this->title = $title;
         $this->text = $text;
+        $this->category = $category;
+        $this->date = $date;
     }
 
     public function __toString(): string
@@ -39,6 +43,16 @@ class Post {
     public function text(): string
     {
         return $this->text;
+    }
+
+    public function category(): string
+    {
+        return $this->category;
+    }
+
+    public function date(): string
+    {
+        return $this->date;
     }
 
 }
