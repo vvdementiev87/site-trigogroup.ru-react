@@ -40,7 +40,8 @@ class LogOut implements ActionInterface
         $this->authTokensRepository->save($authToken);
 
         return new SuccessfulResponse([
-            'token' => $authToken->token()
+            'token' => $authToken->token(),
+            'texpiresOn' => $authToken->expiresOn()
         ]);
     }
 }

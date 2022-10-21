@@ -44,6 +44,7 @@ class LogIn implements ActionInterface
         // Возвращаем токен
         return new SuccessfulResponse([
             'token' => $authToken->token(),
+            'expiresOn' => $authToken->expiresOn(),
             'uuid' => (string)$user->uuid(),
             'username' => $user->username()
         ]);
