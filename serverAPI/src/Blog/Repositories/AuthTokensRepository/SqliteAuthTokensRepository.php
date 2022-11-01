@@ -3,11 +3,11 @@
 namespace devavi\leveltwo\Blog\Repositories\AuthTokensRepository;
 
 use DateTimeImmutable;
-use DateTimeInterface;
 use devavi\leveltwo\Blog\AuthToken;
 use devavi\leveltwo\Blog\Exceptions\AuthTokenNotFoundException;
 use devavi\leveltwo\Blog\Exceptions\AuthTokensRepositoryException;
 use devavi\leveltwo\Blog\UUID;
+use Exception;
 use PDO;
 use PDOException;
 
@@ -41,7 +41,7 @@ SQL;
             $statement->execute([
                 ':token' => $authToken->token(),
                 ':user_uuid' => (string)$authToken->userUuid(),
-                ':expires_on' => $authToken->expiresOn(),
+                ':expires_on' => $authToken->expiresOn()->getTimestamp(),
             ]);
         } catch (PDOException $e) {
             throw new AuthTokensRepositoryException(
@@ -75,11 +75,22 @@ SQL;
         if (false === $result) {
             throw new AuthTokenNotFoundException("Cannot find token: $token");
         }
+
+
+
+        $date = (new DateTimeImmutable)->setTimestamp(+$result['expires_on']);
+
+
+        if (false === $date) {
+            throw new AuthTokenNotFoundException("Cannot convert date");
+        }
+
         try {
             return new AuthToken(
                 $result['token'],
                 new UUID($result['user_uuid']),
-                $result['expires_on']
+                $date
+
             );
         } catch (\Exception $e) {
             throw new AuthTokensRepositoryException(

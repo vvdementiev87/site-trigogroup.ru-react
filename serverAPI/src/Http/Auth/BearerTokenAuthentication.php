@@ -57,7 +57,7 @@ class BearerTokenAuthentication implements TokenAuthenticationInterface
         }
         // Проверяем срок годности токена
         if ($authToken->expiresOn() <= new DateTimeImmutable()) {
-            throw new AuthException("Token expired: [$token]");
+            throw new AuthException("Token expired: [$token]" . $authToken->expiresOn()->getTimestamp());
         }
         // Получаем UUID пользователя из токена
         $userUuid = $authToken->userUuid();

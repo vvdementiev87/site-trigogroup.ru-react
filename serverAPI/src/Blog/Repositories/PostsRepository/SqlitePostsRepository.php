@@ -2,6 +2,7 @@
 
 namespace devavi\leveltwo\Blog\Repositories\PostsRepository;
 
+use DateTimeImmutable;
 use \PDO;
 use \PDOStatement;
 use Psr\Log\LoggerInterface;
@@ -35,7 +36,7 @@ class SqlitePostsRepository implements PostsRepositoryInterface
             ':title' => $post->title(),
             ':text' => $post->text(),
             ':category' => $post->category(),
-            ':date' => $post->date(),
+            ':date' => $post->date()->getTimestamp(),
             ':text_short' => $post->textShort()
         ]);
 
@@ -90,15 +91,17 @@ class SqlitePostsRepository implements PostsRepositoryInterface
 
         $userRepository = new SqliteUsersRepository($this->connection, $this->logger);
         $user = $userRepository->get(new UUID($result['author_uuid']));
+        $date = (new DateTimeImmutable)->setTimestamp(+$result['date']);
 
         return new Post(
             new UUID($result['uuid']),
             $user,
             $result['title'],
             $result['text'],
+            $result['text_short'],
             $result['category'],
-            $result['date'],
-            $result['text_short']
+            $date
+
         );
     }
 

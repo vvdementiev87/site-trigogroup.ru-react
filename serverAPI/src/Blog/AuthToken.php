@@ -12,11 +12,11 @@ class AuthToken
         // UUID пользователя
         private UUID              $userUuid,
         // Срок годности
-        private int $expiresOn
+        private DateTimeImmutable $expiresOn
     ) {
     }
 
-    public function setExpiresOn(int $expiresOn): void
+    public function setExpiresOn(DateTimeImmutable $expiresOn): void
     {
         $this->expiresOn = $expiresOn;
     }
@@ -31,7 +31,7 @@ class AuthToken
         return $this->userUuid;
     }
 
-    public function expiresOn(): int
+    public function expiresOn(): DateTimeImmutable
     {
         return $this->expiresOn;
     }

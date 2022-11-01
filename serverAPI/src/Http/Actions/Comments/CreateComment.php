@@ -49,7 +49,12 @@ class CreateComment implements ActionInterface
         }
 
         $newCommentUuid = UUID::random();
-        $date = (new DateTimeImmutable("now"))->getTimestamp();
+        $format = 'Y-m-d H:i:s';
+        $date = DateTimeImmutable::createFromFormat($format, $request->jsonBodyField('date'));
+
+        if (false === $date) {
+            throw new ErrorResponse("Cannot convert date to fomat: $format");
+        }
         $text = $request->jsonBodyField('text');
         try {
             $comment = new Comment(

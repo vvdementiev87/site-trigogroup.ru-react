@@ -37,7 +37,7 @@ class LogIn implements ActionInterface
             bin2hex(random_bytes(40)),
             $user->uuid(),
             // Срок годности - 1 день
-            (new DateTimeImmutable("now"))->modify('+1 day')->getTimestamp()
+            (new DateTimeImmutable("now"))->modify('+1 day')
         );
         // Сохраняем токен в репозиторий
         $this->authTokensRepository->save($authToken);

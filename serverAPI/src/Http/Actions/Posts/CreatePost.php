@@ -2,6 +2,7 @@
 
 namespace devavi\leveltwo\Http\Actions\Posts;
 
+use DateTimeImmutable;
 use Psr\Log\LoggerInterface;
 use devavi\leveltwo\Blog\Post;
 use devavi\leveltwo\Blog\UUID;
@@ -43,6 +44,13 @@ class CreatePost implements ActionInterface
 
         $newPostUuid = UUID::random();
 
+        $format = 'Y-m-d H:i:s';
+        $date = DateTimeImmutable::createFromFormat($format, $request->jsonBodyField('date'));
+
+        if (false === $date) {
+            throw new ErrorResponse("Cannot convert date to fomat: $format");
+        }
+
         try {
             $post = new Post(
                 $newPostUuid,
@@ -51,7 +59,7 @@ class CreatePost implements ActionInterface
                 $request->jsonBodyField('text'),
                 $request->jsonBodyField('textShort'),
                 $request->jsonBodyField('category'),
-                $request->jsonBodyField('date')
+                $date
             );
         } catch (HttpException $exception) {
             return new ErrorResponse($exception->getMessage());

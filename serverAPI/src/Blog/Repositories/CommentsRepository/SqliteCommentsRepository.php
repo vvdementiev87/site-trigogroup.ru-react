@@ -2,6 +2,7 @@
 
 namespace devavi\leveltwo\Blog\Repositories\CommentsRepository;
 
+use DateTimeImmutable;
 use \PDO;
 use \PDOStatement;
 use Psr\Log\LoggerInterface;
@@ -36,7 +37,7 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
             ':post_uuid' => (string)$comment->post()->uuid(),
             ':author_uuid' => (string)$comment->user()->uuid(),
             ':text' => $comment->text(),
-            ':date' => $comment->date()
+            ':date' => $comment->date()->getTimestamp()
         ]);
 
         $this->logger->info("Comment created successfully: {$comment->uuid()}");
@@ -65,13 +66,14 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
 
         $postRepository = new SqlitePostsRepository($this->connection, $this->logger);
         $post = $postRepository->get(new UUID($result['post_uuid']));
+        $date = (new DateTimeImmutable)->setTimestamp(+$result['date']);
 
         return new Comment(
             new UUID($result['uuid']),
             $post->user(),
             $post,
             $result['text'],
-            $result['date']
+            $date
         );
     }
 }

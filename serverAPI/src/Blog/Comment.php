@@ -2,6 +2,8 @@
 
 namespace devavi\leveltwo\Blog;
 
+use DateTimeImmutable;
+
 class Comment
 {
 
@@ -9,9 +11,9 @@ class Comment
     private User $user;
     private Post $post;
     private string $text;
-    private int $date;
+    private DateTimeImmutable $date;
 
-    public function __construct(UUID $uuid, User $user, Post $post, string $text, int $date)
+    public function __construct(UUID $uuid, User $user, Post $post, string $text, DateTimeImmutable $date)
     {
         $this->uuid = $uuid;
         $this->user = $user;
@@ -44,7 +46,7 @@ class Comment
     {
         return $this->text;
     }
-    public function date(): string
+    public function date(): DateTimeImmutable
     {
         return $this->date;
     }
