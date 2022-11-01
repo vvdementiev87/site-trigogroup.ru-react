@@ -28,8 +28,8 @@ class SqliteUsersRepository implements UsersRepositoryInterface
 
         // Подготавливаем запрос
         $statement = $this->connection->prepare(
-            'INSERT INTO users (uuid, username, password, first_name, last_name)
-             VALUES (:uuid, :username, :password, :first_name, :last_name)'
+            'INSERT INTO users (uuid, username, password, first_name, last_name, email)
+             VALUES (:uuid, :username, :password, :first_name, :last_name, :email)'
         );
         // Выполняем запрос с конкретными значениями
         $statement->execute([
@@ -37,9 +37,10 @@ class SqliteUsersRepository implements UsersRepositoryInterface
             ':last_name' => $user->name()->last(),
             ':uuid' => (string)$user->uuid(),
             ':username' => $user->username(),
+            ':email' => $user->email(),
             ':password' => $user->hashedPassword()
         ]);
-        $this->logger->info("User created successfully: {$user->uuid()}");
+        $this->logger->info("User created successfully: uuid: {$user->uuid()}");
     }
 
     // Также добавим метод для получения
@@ -92,6 +93,7 @@ class SqliteUsersRepository implements UsersRepositoryInterface
             new UUID($result['uuid']),
             new Name($result['first_name'], $result['last_name']),
             $result['username'],
+            $result['email'],
             $result['password']
         );
     }

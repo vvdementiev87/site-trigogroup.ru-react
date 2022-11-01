@@ -1,5 +1,7 @@
 <?php
-
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, DELETE');
+header("Access-Control-Allow-Headers: X-Requested-With, Authorization");
 
 use Psr\Log\LoggerInterface;
 use devavi\leveltwo\Http\Request;
@@ -10,12 +12,13 @@ use devavi\leveltwo\Blog\Exceptions\AppException;
 use devavi\leveltwo\Blog\Exceptions\HttpException;
 use devavi\leveltwo\Http\Actions\Posts\CreatePost;
 use devavi\leveltwo\Http\Actions\Posts\DeletePost;
-use devavi\leveltwo\Http\Actions\Posts\FindByUuid;
+use devavi\leveltwo\Http\Actions\Posts\FindByCategory;
 use devavi\leveltwo\Http\Actions\Posts\ShowPosts;
 use devavi\leveltwo\Http\Actions\Users\CreateUser;
 use devavi\leveltwo\Http\Actions\Likes\CreatePostLike;
 use devavi\leveltwo\Http\Actions\Users\FindByUsername;
 use devavi\leveltwo\Http\Actions\Comments\CreateComment;
+use devavi\leveltwo\Http\Actions\Posts\FindByUuid;
 
 $container = require __DIR__ . '/bootstrap.php';
 
@@ -46,19 +49,21 @@ try {
 
 $routes = [
     'GET' => [
-        'index.php/users/show' => FindByUsername::class,
-        'index.php//posts/show' => ShowPosts::class,
+        '/http.php/users/show' => FindByUsername::class,
+        '/http.php/posts/show' => ShowPosts::class,
     ],
     'POST' => [
-        'index.php//login' => LogIn::class,
-        'index.php//logout' => LogOut::class,
-        'index.php//users/create' => CreateUser::class,
-        'index.php//posts/create' => CreatePost::class,
-        'index.php//comments/create' => CreateComment::class,
-        'index.php//posts/likes/create' => CreatePostLike::class,
+        '/http.php/login' => LogIn::class,
+        '/http.php/logout' => LogOut::class,
+        '/http.php/users/create' => CreateUser::class,
+        '/http.php/posts/create' => CreatePost::class,
+        '/http.php/comments/create' => CreateComment::class,
+        '/http.php/posts/likes/create' => CreatePostLike::class,
+        '/http.php/posts/find/category' => FindByCategory::class,
+        '/http.php/posts/find/uuid' => FindByUuid::class,
     ],
     'DELETE' => [
-        'index.php//posts' => DeletePost::class,
+        '/http.php/posts' => DeletePost::class,
     ],
 
 ];

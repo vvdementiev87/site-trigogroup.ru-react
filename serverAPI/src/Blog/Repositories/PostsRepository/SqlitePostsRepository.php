@@ -25,8 +25,8 @@ class SqlitePostsRepository implements PostsRepositoryInterface
     {
 
         $statement = $this->connection->prepare(
-            'INSERT INTO posts (uuid, author_uuid, title, text, category, date) 
-            VALUES (:uuid, :author_uuid, :title, :text, :category, :date)'
+            'INSERT INTO posts (uuid, author_uuid, title, text, category, date, text_short) 
+            VALUES (:uuid, :author_uuid, :title, :text, :category, :date, :text_short)'
 
         );
         $statement->execute([
@@ -35,7 +35,8 @@ class SqlitePostsRepository implements PostsRepositoryInterface
             ':title' => $post->title(),
             ':text' => $post->text(),
             ':category' => $post->category(),
-            ':date' => $post->date()
+            ':date' => $post->date(),
+            ':text_short' => $post->textShort()
         ]);
 
         $this->logger->info("Post created successfully: {$post->uuid()}");
@@ -54,7 +55,7 @@ class SqlitePostsRepository implements PostsRepositoryInterface
     }
 
     public function getAll()
-    {  
+    {
         /* $statement = $this->connection->prepare(
             'SELECT COUNT(*) FROM posts'
         );
@@ -71,9 +72,9 @@ class SqlitePostsRepository implements PostsRepositoryInterface
         $size = $statement->rowCount();
         $this->logger->warning("size $size");
 
-        for ($i = 1; $i <= $size ; $i++) {
+        for ($i = 1; $i <= $size; $i++) {
             $result[] = $this->getPost($statement, "all");
-        };          
+        };
 
         return $result;
     }
@@ -96,7 +97,8 @@ class SqlitePostsRepository implements PostsRepositoryInterface
             $result['title'],
             $result['text'],
             $result['category'],
-            $result['date']
+            $result['date'],
+            $result['text_short']
         );
     }
 
@@ -109,5 +111,23 @@ class SqlitePostsRepository implements PostsRepositoryInterface
         $statement->execute([
             ':uuid' => $uuid,
         ]);
+    }
+
+    public function getByCategory(string $category)
+    {
+        $statement = $this->connection->prepare(
+            'SELECT * FROM posts WHERE category = :category'
+        );
+        $statement->execute([
+            ':category' => (string)$category,
+        ]);
+        $size = $statement->rowCount();
+        $this->logger->warning("size $size");
+
+        for ($i = 1; $i <= $size; $i++) {
+            $result[] = $this->getPost($statement, "category:" . $category);
+        };
+
+        return $result;
     }
 }

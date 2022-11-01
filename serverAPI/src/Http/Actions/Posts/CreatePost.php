@@ -49,6 +49,7 @@ class CreatePost implements ActionInterface
                 $author,
                 $request->jsonBodyField('title'),
                 $request->jsonBodyField('text'),
+                $request->jsonBodyField('textShort'),
                 $request->jsonBodyField('category'),
                 $request->jsonBodyField('date')
             );
@@ -59,14 +60,18 @@ class CreatePost implements ActionInterface
         $this->postsRepository->save($post);
         $this->logger->info("Post created: $newPostUuid");
 
-        return new SuccessfulResponse([
-            'uuid' => (string)$newPostUuid,
-            'post' => ["author"=>$post->user()->username(),
-        "title"=>$post->title(),
-        "text"=>$post->text(),
-        "category"=>$post->category(),
-        "date"=>$post->date(),
-        ]]
+        return new SuccessfulResponse(
+            [
+                'uuid' => (string)$newPostUuid,
+                'post' => [
+                    "author" => $post->user()->username(),
+                    "title" => $post->title(),
+                    "text" => $post->text(),
+                    "category" => $post->category(),
+                    "date" => $post->date(),
+                    "textShort" => $post->textShort(),
+                ]
+            ]
         );
     }
 }

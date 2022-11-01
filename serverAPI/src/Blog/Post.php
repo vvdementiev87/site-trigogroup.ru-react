@@ -1,21 +1,25 @@
 <?php
+
 namespace devavi\leveltwo\Blog;
 
-class Post {
-    
+class Post
+{
+
     private UUID    $uuid;
     private User    $user;
     private string  $title;
     private string  $text;
+    private string  $textShort;
     private string  $category;
-    private string $date;
+    private int  $date;
 
-    public function __construct(UUID $uuid, User $user, string $title, string $text, string  $category, string $date)
+    public function __construct(UUID $uuid, User $user, string $title, string $text, string $textShort, string  $category, int $date)
     {
         $this->uuid = $uuid;
         $this->user = $user;
         $this->title = $title;
         $this->text = $text;
+        $this->textShort = $textShort;
         $this->category = $category;
         $this->date = $date;
     }
@@ -39,10 +43,15 @@ class Post {
     {
         return $this->title;
     }
-    
+
     public function text(): string
     {
         return $this->text;
+    }
+
+    public function textShort(): string
+    {
+        return $this->textShort;
     }
 
     public function category(): string
@@ -50,9 +59,8 @@ class Post {
         return $this->category;
     }
 
-    public function date(): string
+    public function date(): int
     {
         return $this->date;
     }
-
 }

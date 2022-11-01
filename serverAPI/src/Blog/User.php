@@ -11,12 +11,14 @@ class User
      * @param UUID $uuid
      * @param Name $name
      * @param string $username
+     * @param string $email
      * @param string $hashedPassword
      */
     public function __construct(
         private UUID   $uuid,
         private Name   $name,
         private string $username,
+        private string $email,
         private string $hashedPassword
     ) {
     }
@@ -54,6 +56,7 @@ class User
      */
     public static function createFrom(
         string $username,
+        string $email,
         string $password,
         Name   $name
     ): self {
@@ -62,6 +65,7 @@ class User
             $uuid,
             $name,
             $username,
+            $email,
             self::hash($password, $uuid),
         );
     }
@@ -105,5 +109,17 @@ class User
     public function setUsername(string $username): void
     {
         $this->username = $username;
+    }
+    public function email(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
 }

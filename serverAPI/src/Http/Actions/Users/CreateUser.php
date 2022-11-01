@@ -27,7 +27,9 @@ class CreateUser implements ActionInterface
 
             $user = User::createFrom(
                 $request->jsonBodyField('username'),
+                $request->jsonBodyField('email'),
                 $request->jsonBodyField('password'),
+
                 new Name(
                     $request->jsonBodyField('first_name'),
                     $request->jsonBodyField('last_name')

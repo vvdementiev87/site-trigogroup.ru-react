@@ -41,7 +41,7 @@ SQL;
             $statement->execute([
                 ':token' => $authToken->token(),
                 ':user_uuid' => (string)$authToken->userUuid(),
-                ':expires_on' => $authToken->expiresOn()->format(DateTimeInterface::ATOM),
+                ':expires_on' => $authToken->expiresOn(),
             ]);
         } catch (PDOException $e) {
             throw new AuthTokensRepositoryException(
@@ -79,7 +79,7 @@ SQL;
             return new AuthToken(
                 $result['token'],
                 new UUID($result['user_uuid']),
-                new DateTimeImmutable($result['expires_on'])
+                $result['expires_on']
             );
         } catch (\Exception $e) {
             throw new AuthTokensRepositoryException(

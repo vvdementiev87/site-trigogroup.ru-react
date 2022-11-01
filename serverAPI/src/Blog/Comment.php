@@ -1,19 +1,23 @@
 <?php
+
 namespace devavi\leveltwo\Blog;
 
-class Comment {
-    
+class Comment
+{
+
     private UUID $uuid;
     private User $user;
     private Post $post;
     private string $text;
+    private int $date;
 
-    public function __construct(UUID $uuid, User $user, Post $post, string $text)
+    public function __construct(UUID $uuid, User $user, Post $post, string $text, int $date)
     {
         $this->uuid = $uuid;
         $this->user = $user;
         $this->post = $post;
         $this->text = $text;
+        $this->date = $date;
     }
 
     public function __toString(): string
@@ -35,10 +39,13 @@ class Comment {
     {
         return $this->user;
     }
-    
+
     public function text(): string
     {
         return $this->text;
     }
-
+    public function date(): string
+    {
+        return $this->date;
+    }
 }

@@ -16,7 +16,7 @@ use devavi\leveltwo\Blog\Repositories\PostsRepository\PostsRepositoryInterface;
 
 
 
-class FindByUuid implements ActionInterface
+class FindByCategory implements ActionInterface
 {
     // Нам понадобится репозиторий пользователей,
     // внедряем его контракт в качестве зависимости
@@ -37,27 +37,37 @@ class FindByUuid implements ActionInterface
         }
 
         try {
-            $postUuid = $request->query('uuid');
+            $category = $request->query('categoty');
         } catch (HttpException $e) {
             return new ErrorResponse($e->getMessage());
         }
 
         try {
-            $post = $this->postsRepository->get(new UUID($postUuid));
+            $posts = $this->postsRepository->getByCategory($category);
         } catch (PostNotFoundException $e) {
             return new ErrorResponse($e->getMessage());
         }
 
+        $result = [];
+        foreach ($posts as $post) {
+            array_push($result, [
+                'uuid' => (string)$post->uuid(),
+                'post' => [
+                    "author" => $post->user()->username(),
+                    "title" => $post->title(),
+                    "text" => $post->text(),
+                    "category" => $post->category(),
+                    "date" => $post->date(),
+                    "textShort" => $post->textShort()
+                ]
+            ]);
+        }
+
         return new SuccessfulResponse([
-            'uuid' => $post->uuid(),
-            'post' => [
-                "author" => $post->user()->username(),
-                "title" => $post->title(),
-                "text" => $post->text(),
-                "category" => $post->category(),
-                "date" => $post->date(),
-                "textShort" => $post->textShort(),
-            ],
+            'category' => [
+                'category' => $category,
+                'posts' => $result
+            ]
         ]);
     }
 }

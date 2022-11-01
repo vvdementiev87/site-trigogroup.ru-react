@@ -48,7 +48,9 @@ class FindByUsername implements ActionInterface
         // Возвращаем успешный ответ
         return new SuccessfulResponse([
             'username' => $user->username(),
-            'name' => $user->name()->first() . ' ' . $user->name()->last(),
+            'first_name' => $user->name()->first(),
+            'last_name' => $user->name()->last(),
+            'email' => $user->email(),
         ]);
     }
 }

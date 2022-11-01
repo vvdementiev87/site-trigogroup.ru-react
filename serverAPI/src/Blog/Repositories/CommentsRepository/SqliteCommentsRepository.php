@@ -26,8 +26,8 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
     public function save(Comment $comment): void
     {
         $statement = $this->connection->prepare(
-            'INSERT INTO comments (uuid, post_uuid, author_uuid, text) 
-            VALUES (:uuid, :post_uuid, :author_uuid, :text)'
+            'INSERT INTO comments (uuid, post_uuid, author_uuid, text, date) 
+            VALUES (:uuid, :post_uuid, :author_uuid, :text, :date)'
 
         );
 
@@ -36,6 +36,7 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
             ':post_uuid' => (string)$comment->post()->uuid(),
             ':author_uuid' => (string)$comment->user()->uuid(),
             ':text' => $comment->text(),
+            ':date' => $comment->date()
         ]);
 
         $this->logger->info("Comment created successfully: {$comment->uuid()}");
@@ -69,7 +70,8 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
             new UUID($result['uuid']),
             $post->user(),
             $post,
-            $result['text']
+            $result['text'],
+            $result['date']
         );
     }
 }

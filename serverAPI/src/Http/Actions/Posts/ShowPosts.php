@@ -34,17 +34,21 @@ class ShowPosts implements ActionInterface
     {
         $posts = $this->postsRepository->getAll();
         $this->logger->info("Post shown");
-        $result=[];
+        $result = [];
         foreach ($posts as $post) {
             array_push($result, [
-            'uuid' => (string)$post->uuid(),
-        'post' => ["author"=>$post->user()->username(),
-        "title"=>$post->title(),
-        "text"=>$post->text(),
-        "category"=>$post->category(),
-        "date"=>$post->date(),
-        ]]);}
-        
+                'uuid' => (string)$post->uuid(),
+                'post' => [
+                    "author" => $post->user()->username(),
+                    "title" => $post->title(),
+                    "text" => $post->text(),
+                    "category" => $post->category(),
+                    "date" => $post->date(),
+                    "textShort" => $post->textShort()
+                ]
+            ]);
+        }
+
 
         return new SuccessfulResponse([
             'posts' => $result,

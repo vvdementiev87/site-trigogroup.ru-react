@@ -2,6 +2,7 @@
 
 namespace devavi\leveltwo\Http\Actions\Comments;
 
+use DateTimeImmutable;
 use devavi\leveltwo\Blog\UUID;
 use devavi\leveltwo\Blog\Comment;
 use devavi\leveltwo\Http\Request;
@@ -48,13 +49,15 @@ class CreateComment implements ActionInterface
         }
 
         $newCommentUuid = UUID::random();
-
+        $date = (new DateTimeImmutable("now"))->getTimestamp();
+        $text = $request->jsonBodyField('text');
         try {
             $comment = new Comment(
                 $newCommentUuid,
                 $author,
                 $post,
-                $request->jsonBodyField('text'),
+                $text,
+                $date
             );
         } catch (HttpException $e) {
             return new ErrorResponse($e->getMessage());
@@ -62,6 +65,8 @@ class CreateComment implements ActionInterface
         $this->commentsRepository->save($comment);
         return new SuccessfulResponse([
             'uuid' => (string)$newCommentUuid,
+            'date' => $date,
+            'text' => $text,
         ]);
     }
 }

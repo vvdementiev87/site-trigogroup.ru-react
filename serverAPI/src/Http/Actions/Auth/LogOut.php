@@ -34,14 +34,14 @@ class LogOut implements ActionInterface
             throw new AuthException($exception->getMessage());
         }
 
-        $authToken->setExpiresOn(new DateTimeImmutable("now"));
+        $authToken->setExpiresOn((new DateTimeImmutable("now"))->getTimestamp());
 
 
         $this->authTokensRepository->save($authToken);
 
         return new SuccessfulResponse([
             'token' => $authToken->token(),
-            'texpiresOn' => $authToken->expiresOn()
+            'expiresOn' => $authToken->expiresOn()
         ]);
     }
 }
