@@ -14,8 +14,9 @@ class Post
     private string  $textShort;
     private string  $category;
     private DateTimeImmutable $date;
+    private ?string  $imgDir;
 
-    public function __construct(UUID $uuid, User $user, string $title, string $text, string $textShort, string  $category, DateTimeImmutable $date)
+    public function __construct(UUID $uuid, User $user, string $title, string $text, string $textShort, string  $category, DateTimeImmutable $date, ?string $imgDir)
     {
         $this->uuid = $uuid;
         $this->user = $user;
@@ -24,6 +25,7 @@ class Post
         $this->textShort = $textShort;
         $this->category = $category;
         $this->date = $date;
+        $this->imgDir = $imgDir;
     }
 
     public function __toString(): string
@@ -64,5 +66,9 @@ class Post
     public function date(): DateTimeImmutable
     {
         return $this->date;
+    }
+    public function imgDir(): ?string
+    {
+        return $this->imgDir;
     }
 }

@@ -26,8 +26,8 @@ class SqlitePostsRepository implements PostsRepositoryInterface
     {
 
         $statement = $this->connection->prepare(
-            'INSERT INTO posts (uuid, author_uuid, title, text, category, date, text_short) 
-            VALUES (:uuid, :author_uuid, :title, :text, :category, :date, :text_short)'
+            'INSERT INTO posts (uuid, author_uuid, title, text, category, date, text_short, imgDir) 
+            VALUES (:uuid, :author_uuid, :title, :text, :category, :date, :text_short, :imgDir)'
 
         );
         $statement->execute([
@@ -37,7 +37,8 @@ class SqlitePostsRepository implements PostsRepositoryInterface
             ':text' => $post->text(),
             ':category' => $post->category(),
             ':date' => $post->date()->getTimestamp(),
-            ':text_short' => $post->textShort()
+            ':text_short' => $post->textShort(),
+            ':imgDir' => $post->imgDir()
         ]);
 
         $this->logger->info("Post created successfully: {$post->uuid()}");
@@ -100,7 +101,8 @@ class SqlitePostsRepository implements PostsRepositoryInterface
             $result['text'],
             $result['text_short'],
             $result['category'],
-            $date
+            $date,
+            $result['imgDir']
 
         );
     }

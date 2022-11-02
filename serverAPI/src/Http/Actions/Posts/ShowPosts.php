@@ -44,7 +44,8 @@ class ShowPosts implements ActionInterface
                     "text" => $post->text(),
                     "category" => $post->category(),
                     "date" => $post->date(),
-                    "textShort" => $post->textShort()
+                    "textShort" => $post->textShort(),
+                    "imgDir" => $post->imgDir(),
                 ]
             ]);
         }

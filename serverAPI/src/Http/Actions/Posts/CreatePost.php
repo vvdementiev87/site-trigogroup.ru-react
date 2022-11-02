@@ -59,7 +59,8 @@ class CreatePost implements ActionInterface
                 $request->jsonBodyField('text'),
                 $request->jsonBodyField('textShort'),
                 $request->jsonBodyField('category'),
-                $date
+                $date,
+                $request->jsonBodyField('imgDir')
             );
         } catch (HttpException $exception) {
             return new ErrorResponse($exception->getMessage());
@@ -78,6 +79,7 @@ class CreatePost implements ActionInterface
                     "category" => $post->category(),
                     "date" => $post->date(),
                     "textShort" => $post->textShort(),
+                    "imgDir" => $post->imgDir(),
                 ]
             ]
         );

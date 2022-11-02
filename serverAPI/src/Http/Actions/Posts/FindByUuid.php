@@ -57,6 +57,7 @@ class FindByUuid implements ActionInterface
                 "category" => $post->category(),
                 "date" => $post->date(),
                 "textShort" => $post->textShort(),
+                "imgDir" => $post->imgDir(),
             ],
         ]);
     }
