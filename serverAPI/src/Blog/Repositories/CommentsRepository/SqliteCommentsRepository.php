@@ -76,4 +76,21 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
             $date
         );
     }
+    public function getByPostUuid(UUID $uuid)
+    {
+        $statement = $this->connection->prepare(
+            'SELECT * FROM comments WHERE post_uuid = :uuid'
+        );
+        $statement->execute([
+            ':uuid' => (string)$uuid,
+        ]);
+        $size = $statement->rowCount();
+        $this->logger->warning("size $size");
+
+        for ($i = 1; $i <= $size; $i++) {
+            $result[] = $this->getComment($statement, "uuid:" . (string)$uuid);
+        };
+
+        return $result;
+    }
 }

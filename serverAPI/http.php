@@ -19,6 +19,7 @@ use devavi\leveltwo\Http\Actions\Likes\CreatePostLike;
 use devavi\leveltwo\Http\Actions\Users\FindByUsername;
 use devavi\leveltwo\Http\Actions\Comments\CreateComment;
 use devavi\leveltwo\Http\Actions\Posts\FindByUuid;
+use devavi\leveltwo\Http\Actions\Comments\FindCommentByPostUuid;
 
 $container = require __DIR__ . '/bootstrap.php';
 
@@ -58,6 +59,7 @@ $routes = [
         '/http.php/users/create' => CreateUser::class,
         '/http.php/posts/create' => CreatePost::class,
         '/http.php/comments/create' => CreateComment::class,
+        '/http.php/comments/findByPostUuid' => FindCommentByPostUuid::class,
         '/http.php/posts/likes/create' => CreatePostLike::class,
         '/http.php/posts/find/category' => FindByCategory::class,
         '/http.php/posts/find/uuid' => FindByUuid::class,

@@ -1,6 +1,6 @@
 <?php
 
-namespace devavi\leveltwo\Http\Actions\Posts;
+namespace devavi\leveltwo\Http\Actions\Comments;
 
 use devavi\leveltwo\Blog\UUID;
 use devavi\leveltwo\Http\Request;
@@ -9,18 +9,21 @@ use devavi\leveltwo\Http\ErrorResponse;
 use devavi\leveltwo\Http\SuccessfulResponse;
 use devavi\leveltwo\Http\Actions\ActionInterface;
 use devavi\leveltwo\Blog\Exceptions\AuthException;
+use devavi\leveltwo\Blog\Exceptions\CommentNotFoundException;
 use devavi\leveltwo\Blog\Exceptions\HttpException;
 use devavi\leveltwo\Blog\Exceptions\PostNotFoundException;
+use devavi\leveltwo\Blog\Repositories\CommentsRepository\CommentsRepositoryInterface;
 use devavi\leveltwo\Http\Auth\TokenAuthenticationInterface;
 use devavi\leveltwo\Blog\Repositories\PostsRepository\PostsRepositoryInterface;
 
 
 
-class FindByUuid implements ActionInterface
+class FindCommentByPostUuid implements ActionInterface
 {
     // Нам понадобится репозиторий пользователей,
     // внедряем его контракт в качестве зависимости
     public function __construct(
+        private CommentsRepositoryInterface $commentsRepository,
         private PostsRepositoryInterface $postsRepository,
         private TokenAuthenticationInterface $authentication,
     ) {
@@ -43,22 +46,28 @@ class FindByUuid implements ActionInterface
         }
 
         try {
-            $post = $this->postsRepository->get(new UUID($postUuid));
-        } catch (PostNotFoundException $e) {
+            $comments = $this->commentsRepository->getByPostUuid(new UUID($postUuid));
+        } catch (CommentNotFoundException $e) {
             return new ErrorResponse($e->getMessage());
         }
 
+        $result = [];
+        foreach ($comments as $comment) {
+            array_push($result, [
+                'uuid' => (string)$comment->uuid(),
+                'comment' => [
+                    "postUuid" => $comment->post()->uuid(),
+                    "author" => $comment->user()->uuid(),
+                    "text" => $comment->text(),
+                    "date" => $comment->date()
+                ]
+            ]);
+        }
+
         return new SuccessfulResponse([
-            'uuid' => $post->uuid(),
-            'post' => [
-                "author" => $post->user()->username(),
-                "title" => $post->title(),
-                "text" => $post->text(),
-                "category" => $post->category(),
-                "date" => $post->date(),
-                "textShort" => $post->textShort(),
-                "imgDir" => $post->imgDir(),
-            ],
+            'category' => [
+                'comments' => $result
+            ]
         ]);
     }
 }
